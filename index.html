@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Académico - Axel Arias</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --accent-cyan: #38bdf8;
+            --accent-purple: #a855f7;
+            --accent-green: #22c55e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* BARRA NAVEGACIÓN SUPERIOR */
+        header {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        main {
+            flex: 1;
+            max-width: 1100px;
+            width: 90%;
+            margin: 2.5rem auto;
+        }
+
+        /* VISTA PORTADA */
+        .portada-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2.5rem;
+            background: var(--card-dark);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .perfil-foto {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .bio-info h1 {
+            font-size: 2.5rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bio-datos p {
+            font-size: 1.1rem;
+            margin: 0.7rem 0;
+            color: var(--text-muted);
+        }
+
+        .bio-datos strong {
+            color: var(--text-main);
+        }
+
+        /* ABAJO IZQUIERDA: CALIFICACIONES EN ESTRELLAS */
+        .calificaciones-seccion {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            grid-column: 1 / -1;
+        }
+
+        .calificaciones-seccion h3 {
+            margin-bottom: 1.2rem;
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .calificacion-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .estrellas {
+            color: #f59e0b;
+            letter-spacing: 3px;
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+        }
+
+        /* VISTAS DE UNIDADES */
+        .unidad-view {
+            display: none;
+            background: var(--card-dark);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .unidad-title {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.8rem;
+        }
+
+        .subtemas-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        .subtemas-lista {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .subtema-btn {
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .subtema-btn:hover, .subtema-btn.active {
+            background: var(--accent-purple);
+            color: var(--text-main);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+
+        .concepto-box {
+            padding: 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 12px;
+            border: 1px solid var(--accent-purple);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .concepto-box h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .concepto-box p {
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .img-unidad {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+            display: block;
+        }
+
+        code {
+            background: #090d16;
+            color: var(--accent-green);
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            display: block;
+            border: 1px solid #1e293b;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.6rem 1.2rem;
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-volver:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ SUPERIOR DERECHO -->
+    <header>
+        <div class="logo" onclick="mostrarSeccion('portada')">Axel Arias</div>
+        <nav>
+            <ul>
+                <li><a onclick="mostrarSeccion('unidad1')">UNIDAD 1</a></li>
+                <li><a onclick="mostrarSeccion('unidad2')">UNIDAD 2</a></li>
+                <li><a onclick="mostrarSeccion('unidad3')">UNIDAD 3</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- PORTADA PRINCIPAL -->
+        <section id="portada" class="portada-container">
+            <div>
+                <!-- Busca tu foto llamada perfil.jpg subida a GitHub -->
+                <img src="perfil.jpg" alt="Foto de Axel Arias" class="perfil-foto" onerror="this.src='https://via.placeholder.com/220?text=Sube+perfil.jpg'">
+            </div>
+
+            <div class="bio-info">
+                <h1>Axel Arias</h1>
+                <div class="bio-datos">
+                    <p><strong>Ocupación:</strong> Estudiante de la UTC</p>
+                    <p><strong>Ubicación:</strong> Quito-Pichincha</p>
+                    <p><strong>Edad:</strong> 19 años</p>
+                    <p style="margin-top: 1rem;">
+                        Bienvenido a mi portafolio digital interactivo. Utiliza los enlaces del menú superior derecho para navegar a través de cada unidad de estudio.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ABAJO A LA IZQUIERDA: CALIFICACIONES -->
+            <div class="calificaciones-seccion">
+                <h3>Resumen y Calificación por Unidad</h3>
+                
+                <div class="calificacion-item">
+                    <strong>UNIDAD 1:</strong>
+                    <span class="estrellas">★★★★☆</span>
+                    <span>(4/5)</span>
+                </div>
+
+                <div class="calificacion-item">
+                    <strong>UNIDAD 2:</strong>
+                    <span class="estrellas">★★★☆☆</span>
+                    <span>(3/5)</span>
+                </div>
+
+                <div class="calificacion-item">
+                    <strong>UNIDAD 3:</strong>
+                    <span class="estrellas">★★☆☆☆</span>
+                    <span>(2/5)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIDAD 1 -->
+        <section id="unidad1" class="unidad-view">
+            <h2 class="unidad-title">UNIDAD 1: Fundamentos de Programación</h2>
+            <div class="subtemas-grid">
+                <ul class="subtemas-lista">
+                    <li><button class="subtema-btn active" onclick="mostrarConcepto('u1', 1, this)">1.1 Variables y Constantes</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u1', 2, this)">1.2 Estructuras Condicionales</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u1', 3, this)">1.3 Bucles e Iteraciones</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u1', 4, this)">1.4 Funciones y Modularidad</button></li>
+                </ul>
+                <div id="u1-concepto" class="concepto-box"></div>
+            </div>
+            <div class="btn-volver" onclick="mostrarSeccion('portada')">← Volver a la Portada</div>
+        </section>
+
+        <!-- UNIDAD 2 -->
+        <section id="unidad2" class="unidad-view">
+            <h2 class="unidad-title">UNIDAD 2: Estructuras de Datos</h2>
+            <div class="subtemas-grid">
+                <ul class="subtemas-lista">
+                    <li><button class="subtema-btn active" onclick="mostrarConcepto('u2', 1, this)">2.1 Arreglos Unidimensionales</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u2', 2, this)">2.2 Matrices y Tablas</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u2', 3, this)">2.3 Pilas y Colas</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u2', 4, this)">2.4 Diccionarios y Mapas</button></li>
+                </ul>
+                <div id="u2-concepto" class="concepto-box"></div>
+            </div>
+            <div class="btn-volver" onclick="mostrarSeccion('portada')">← Volver a la Portada</div>
+        </section>
+
+        <!-- UNIDAD 3 -->
+        <section id="unidad3" class="unidad-view">
+            <h2 class="unidad-title">UNIDAD 3: Programación Orientada a Objetos</h2>
+            <div class="subtemas-grid">
+                <ul class="subtemas-lista">
+                    <li><button class="subtema-btn active" onclick="mostrarConcepto('u3', 1, this)">3.1 Clases y Objetos</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u3', 2, this)">3.2 Encapsulamiento</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u3', 3, this)">3.3 Herencia de Clases</button></li>
+                    <li><button class="subtema-btn" onclick="mostrarConcepto('u3', 4, this)">3.4 Polimorfismo</button></li>
+                </ul>
+                <div id="u3-concepto" class="concepto-box"></div>
+            </div>
+            <div class="btn-volver" onclick="mostrarSeccion('portada')">← Volver a la Portada</div>
+        </section>
+    </main>
+
+    <script>
+        const contenidos = {
+            u1: {
+                1: { titulo: "1.1 Variables y Constantes", texto: "Las variables almacenan valores de datos que pueden cambiar.", ejemplo: "let edad = 19;\nconst universidad = 'UTC';", img: "u1.jpg" },
+                2: { titulo: "1.2 Estructuras Condicionales", texto: "Permiten evaluar condiciones lógicas.", ejemplo: "if (edad >= 18) {\n   console.log('Mayor de edad');\n}", img: "u1.jpg" },
+                3: { titulo: "1.3 Bucles e Iteraciones", texto: "Repiten un conjunto de instrucciones mientras se cumpla una condición.", ejemplo: "for (let i = 1; i <= 5; i++) {\n   console.log(i);\n}", img: "u1.jpg" },
+                4: { titulo: "1.4 Funciones y Modularidad", texto: "Bloques de código organizados para realizar una tarea específica.", ejemplo: "function saludar(nombre) {\n   return 'Hola ' + nombre;\n}", img: "u1.jpg" }
+            },
+            u2: {
+                1: { titulo: "2.1 Arreglos Unidimensionales", texto: "Colección ordenada de elementos.", ejemplo: "let materias = ['Programación', 'Redes'];", img: "u2.jpg" },
+                2: { titulo: "2.2 Matrices y Tablas", texto: "Estructuras bidimensionales organizadas por filas y columnas.", ejemplo: "let matriz = [[1, 2], [3, 4]];", img: "u2.jpg" },
+                3: { titulo: "2.3 Pilas y Colas", texto: "Pilas operan en formato LIFO y Colas en FIFO.", ejemplo: "pila.push(elemento);\npila.pop();", img: "u2.jpg" },
+                4: { titulo: "2.4 Diccionarios y Mapas", texto: "Almacenamiento de datos mediante clave y valor.", ejemplo: "let estudiante = { nombre: 'Axel', edad: 19 };", img: "u2.jpg" }
+            },
+            u3: {
+                1: { titulo: "3.1 Clases y Objetos", texto: "Una clase define la plantilla y el objeto representa la instancia real.", ejemplo: "class Estudiante {\n  constructor(nombre) { this.nombre = nombre; }\n}", img: "u3.jpg" },
+                2: { titulo: "3.2 Encapsulamiento", texto: "Oculta el estado interno de un objeto protegiendo sus atributos.", ejemplo: "class Cuenta {\n  #saldo = 1000;\n}", img: "u3.jpg" },
+                3: { titulo: "3.3 Herencia de Clases", texto: "Mecanismo por el cual una clase hija hereda métodos y atributos.", ejemplo: "class EstudianteUTC extends Persona {}", img: "u3.jpg" },
+                4: { titulo: "3.4 Polimorfismo", texto: "Capacidad de diferentes objetos de responder de forma única.", ejemplo: "estudiante.presentarse();\nprofesor.presentarse();", img: "u3.jpg" }
+            }
+        };
+
+        function mostrarSeccion(idSeccion) {
+            document.querySelectorAll('main > section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            
+            const seccion = document.getElementById(idSeccion);
+            if(seccion) {
+                seccion.style.display = (idSeccion === 'portada') ? 'grid' : 'block';
+            }
+
+            if(idSeccion === 'unidad1') mostrarConcepto('u1', 1);
+            if(idSeccion === 'unidad2') mostrarConcepto('u2', 1);
+            if(idSeccion === 'unidad3') mostrarConcepto('u3', 1);
+        }
+
+        function mostrarConcepto(unidad, idSubtema, elementoBtn = null) {
+            const data = contenidos[unidad][idSubtema];
+            const contenedor = document.getElementById(`${unidad}-concepto`);
+            
+            contenedor.innerHTML = `
+                <h3>${data.titulo}</h3>
+                <p>${data.texto}</p>
+                <p><strong>Ejemplo práctico:</strong></p>
+                <code>${data.ejemplo.replace(/\n/g, '<br>')}</code>
+                <br>
+                <img src="${data.img}" alt="Imagen ilustrativa" class="img-unidad" onerror="this.style.display='none'">
+            `;
+
+            if(elementoBtn) {
+                const listaBtns = elementoBtn.parentElement.parentElement.querySelectorAll('.subtema-btn');
+                listaBtns.forEach(btn => btn.classList.remove('active'));
+                elementoBtn.classList.add('active');
+            }
+        }
+
+        mostrarSeccion('portada');
+    </script>
+</body>
+</html>
